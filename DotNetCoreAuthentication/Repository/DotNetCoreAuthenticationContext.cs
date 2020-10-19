@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using DotNetCoreAuthentication.Data;
 using DotNetCoreAuthentication.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace DotNetCoreAuthentication.Data
+namespace DotNetCoreAuthentication.Repository
 {
-    public class DotNetCoreAuthenticationContext : IdentityDbContext<ApplicationUser>
+    public class DotNetCoreAuthenticationContext : IdentityDbContext<ApplicationUser> 
     {
         public DotNetCoreAuthenticationContext(DbContextOptions<DotNetCoreAuthenticationContext> options)
             : base(options)
@@ -25,5 +22,7 @@ namespace DotNetCoreAuthentication.Data
             // Add your customizations after calling base.OnModelCreating(builder);
            
         }
+       
+
     }
 }

@@ -8,6 +8,7 @@ using DotNetCoreAuthentication.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using DotNetCoreAuthentication.Models;
+using DotNetCoreAuthentication.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 

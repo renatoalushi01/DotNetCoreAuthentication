@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace DotNetCoreAuthentication.Data.Migrations
+namespace DotNetCoreAuthentication.Repository.Migrations
 {
     public partial class MailSenderUpd : Migration
     {

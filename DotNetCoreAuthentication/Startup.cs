@@ -15,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using DotNetCoreAuthentication.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using DotNetCoreAuthentication.Areas.Identity;
+using DotNetCoreAuthentication.Repository;
 
 namespace DotNetCoreAuthentication
 {

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DotNetCoreAuthentication.Data;
 using DotNetCoreAuthentication.Models;
+using DotNetCoreAuthentication.Repository;
 using Microsoft.AspNetCore.Http;
 
 namespace DotNetCoreAuthentication.Controllers
