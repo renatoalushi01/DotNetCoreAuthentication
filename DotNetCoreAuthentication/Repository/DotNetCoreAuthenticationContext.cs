@@ -22,7 +22,7 @@ namespace DotNetCoreAuthentication.Repository
             // Add your customizations after calling base.OnModelCreating(builder);
            
         }
-       
+     
 
     }
 }
