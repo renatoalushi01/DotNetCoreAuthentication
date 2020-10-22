@@ -15,7 +15,10 @@ using Microsoft.Extensions.Hosting;
 using DotNetCoreAuthentication.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using DotNetCoreAuthentication.Areas.Identity;
+using DotNetCoreAuthentication.Models;
 using DotNetCoreAuthentication.Repository;
+using DotNetCoreAuthentication.Repository.Common;
+using DotNetCoreAuthentication.Service;
 
 namespace DotNetCoreAuthentication
 {
@@ -31,6 +34,7 @@ namespace DotNetCoreAuthentication
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddDbContext<DotNetCoreAuthenticationContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -39,11 +43,13 @@ namespace DotNetCoreAuthentication
                 options.Password.RequireNonAlphanumeric = false;
             }).AddEntityFrameworkStores<DotNetCoreAuthenticationContext>()
             .AddDefaultUI().AddDefaultTokenProviders();
-
+            services.AddTransient<MailBoxRepository>();
+            services.AddTransient<IMailBoxService, MailBoxService>();
             services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, AppUserClaimsPrincipalFactory>();
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

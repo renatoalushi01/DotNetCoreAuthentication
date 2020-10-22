@@ -15,12 +15,12 @@ namespace DotNetCoreAuthentication.Repository
         IEnumerable<TEntity> GetAll();
         Task Create(TEntity entity);
         void Update(TEntity entity);
-        Task Delete(int id);
+        Task Delete(int? id);
         List<TEntity> Find(Func<TEntity, bool> filter);
         void Remove(int id);
-        Task<IEnumerable<TEntity>> GetAllAsync();
+        Task<IEnumerable<TEntity>> GetAllAsync(string uid);
         Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> expression);
-        Task<TEntity> GetAsync(int id);
+        Task<TEntity> GetAsync(int? id);
         Task AddAsync(TEntity entity);
         Task UpdateAsync(TEntity entity);
         Task RemoveAsync(int id);

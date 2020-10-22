@@ -19,5 +19,25 @@ namespace DotNetCoreAuthentication.Service
         {
              await _context.AddAsync(mailBox);
         }
+
+        public async Task DeleteAsync(int? id)
+        {
+            await _context.Delete(id);
+        }
+
+        public async Task<IEnumerable<MailBox>> GetAllAsync(string userId)
+        {
+            return await _context.GetAllAsync(userId);
+        }
+
+        public async Task<MailBox> GetMailsById(int? id)
+        {
+            return await _context.GetAsync(id);
+        }
+
+        public async Task UpdateMailAsync(MailBox mailBox)
+        {
+             await _context.UpdateAsync(mailBox);
+        }
     }
 }
