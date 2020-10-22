@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using DotNetCoreAuthentication.Data;
 
 namespace DotNetCoreAuthentication.Repository
 {
@@ -15,5 +16,7 @@ namespace DotNetCoreAuthentication.Repository
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public bool IsDeleted { get; set; }
+        public string UserId { get; set; }  
+        public virtual ApplicationUser Application { get; set; }
     }
 }
