@@ -9,18 +9,19 @@ using Microsoft.EntityFrameworkCore;
 using DotNetCoreAuthentication.Data;
 using DotNetCoreAuthentication.Models;
 using DotNetCoreAuthentication.Repository;
+using DotNetCoreAuthentication.Service;
 using Microsoft.AspNetCore.Http;
 
 namespace DotNetCoreAuthentication.Controllers
 {
     public class MailBoxesController : Controller
     {
-        private readonly DotNetCoreAuthenticationContext _context;
+        private readonly IMailBoxService _service;
         
 
-        public MailBoxesController(DotNetCoreAuthenticationContext context)
+        public MailBoxesController(IMailBoxService service)
         {
-            _context = context;
+            _service = service;
             
         }
         
@@ -28,7 +29,7 @@ namespace DotNetCoreAuthentication.Controllers
         public async Task<IActionResult> Index()
         {
             var userid = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return View(await _context.MailBoxes.Where(x => x.UserId == userid).ToListAsync());
+            return View(await _service.GetAllAsync(userid));
         }
 
         // GET: MailBoxes/Details/5
@@ -39,8 +40,7 @@ namespace DotNetCoreAuthentication.Controllers
                 return NotFound();
             }
             var userid = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var mailBox = await _context.MailBoxes
-                .FirstOrDefaultAsync(m => m.Id == id && m.UserId == userid);
+            var mailBox = await _service.GetMailsById(id);
             if (mailBox == null)
             {
                 return NotFound();
@@ -54,10 +54,6 @@ namespace DotNetCoreAuthentication.Controllers
         {
             return View();
         }
-
-        // POST: MailBoxes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Sender,Receiver,Subject,Message,DateTime")] MailBox mailBox)
@@ -65,12 +61,12 @@ namespace DotNetCoreAuthentication.Controllers
             if (ModelState.IsValid)
             {
                 var userid = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                _context.Add(mailBox);
-                mailBox.DateTime=DateTime.Now;
-                var user =HttpContext.User.FindFirst(ClaimTypes.Name).Value;
+                mailBox.DateTime = DateTime.Now;
+                var user = HttpContext.User.FindFirst(ClaimTypes.Name).Value;
                 mailBox.UserId = userid;
                 mailBox.Sender = user;
-                await _context.SaveChangesAsync();
+                mailBox.CreatedAt = DateTime.Now;
+                await _service.AddMailAsync(mailBox);
                 return RedirectToAction(nameof(Index));
             }
             return View(mailBox);
@@ -84,7 +80,7 @@ namespace DotNetCoreAuthentication.Controllers
                 return NotFound();
             }
 
-            var mailBox = await _context.MailBoxes.FindAsync(id);
+            var mailBox = await _service.GetMailsById(id);
             if (mailBox == null)
             {
                 return NotFound();
@@ -92,9 +88,6 @@ namespace DotNetCoreAuthentication.Controllers
             return View(mailBox);
         }
 
-        // POST: MailBoxes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Sender,Receiver,Subject,Message,DateTime")] MailBox mailBox)
@@ -110,12 +103,13 @@ namespace DotNetCoreAuthentication.Controllers
                 {
                     var userid = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
                     mailBox.UserId = userid;
-                    _context.Update(mailBox);
-                    await _context.SaveChangesAsync();
+                    mailBox.UpdatedAt = DateTime.Now;
+                    await _service.UpdateMailAsync(mailBox);
+                    
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MailBoxExists(mailBox.Id))
+                    if (mailBox.Id == 0)
                     {
                         return NotFound();
                     }
@@ -137,8 +131,7 @@ namespace DotNetCoreAuthentication.Controllers
                 return NotFound();
             }
 
-            var mailBox = await _context.MailBoxes
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var mailBox = await _service.GetMailsById(id);
             if (mailBox == null)
             {
                 return NotFound();
@@ -152,15 +145,11 @@ namespace DotNetCoreAuthentication.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var mailBox = await _context.MailBoxes.FindAsync(id);
-            _context.MailBoxes.Remove(mailBox);
-            await _context.SaveChangesAsync();
+             await _service.DeleteAsync(id);
+
             return RedirectToAction(nameof(Index));
         }
 
-        private bool MailBoxExists(int id)
-        {
-            return _context.MailBoxes.Any(e => e.Id == id);
-        }
+  
     }
 }

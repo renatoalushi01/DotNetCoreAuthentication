@@ -55,7 +55,7 @@ namespace DotNetCoreAuthentication.Repository
             _context.SaveChanges();
         }
 
-        public async Task Delete(int id)
+        public async Task Delete(int? id)
         {
             var entity = await _context.Set<TEntity>().FindAsync(id);
             entity.IsDeleted = true;
@@ -74,9 +74,9 @@ namespace DotNetCoreAuthentication.Repository
             _context.SaveChanges();
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync()
+        public async Task<IEnumerable<TEntity>> GetAllAsync(string uId)
         {
-                return await _context.Set<TEntity>().Where(item => !item.IsDeleted).ToListAsync();
+                return await _context.Set<TEntity>().Where(item => !item.IsDeleted && item.UserId == uId).ToListAsync();
         }
 
         public async Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> expression)
@@ -84,7 +84,7 @@ namespace DotNetCoreAuthentication.Repository
             return await _context.Set<TEntity>().Where(expression).Where(item => !item.IsDeleted).ToListAsync();
         }
 
-        public async Task<TEntity> GetAsync(int id)
+        public async Task<TEntity> GetAsync(int? id)
         {
             return await _context.Set<TEntity>().FirstOrDefaultAsync(item => !item.IsDeleted && item.Id == id);
         }

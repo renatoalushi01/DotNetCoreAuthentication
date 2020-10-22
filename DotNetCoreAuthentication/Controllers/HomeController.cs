@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using DotNetCoreAuthentication.Models;
 using DotNetCoreAuthentication.Repository;
+using DotNetCoreAuthentication.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,19 +20,19 @@ namespace DotNetCoreAuthentication.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly DotNetCoreAuthenticationContext _context;
+        private readonly IMailBoxService _service;
 
-        public HomeController(ILogger<HomeController> logger,DotNetCoreAuthenticationContext context)
+        public HomeController(ILogger<HomeController> logger,IMailBoxService service)
         {
             _logger = logger;
-            _context = context;
+            _service = service;
         }
 
         public async Task<IActionResult> Index()
         {
 
             var userid = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return View(await _context.MailBoxes.Where(x => x.UserId == userid).ToListAsync());
+            return View(await _service.GetAllAsync(userid));
         }
 
         public IActionResult Privacy()
