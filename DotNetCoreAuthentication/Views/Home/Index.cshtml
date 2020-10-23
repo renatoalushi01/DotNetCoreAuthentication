@@ -4,7 +4,7 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+    <h1 class="display-4">Mail Box</h1>
     
 </div>
 <p>
@@ -49,19 +49,24 @@
     </tbody>
 </table>
 
-
-
-@if (User.Identity.IsAuthenticated)
-{
-    <table class="table table-sm">
-        @foreach (var claim in User.Claims)
+<div class="card bg-secondary text-white">
+    <h4 class="text-center text-white">Some Claims</h4>
+    <div class="card-body text-white">
+        @if (User.Identity.IsAuthenticated)
         {
-            <tr>
-                <td>@claim.Type</td>
-                <td>@claim.Value</td>
+            <table class="table table-sm text-white">
+                @foreach (var claim in User.Claims)
+                {
+                    <tr>
+                        <td>@claim.Type</td>
+                        <td>@claim.Value</td>
 
 
-            </tr>
+                    </tr>
+                }
+            </table>
         }
-    </table>
-}
+    </div>
+</div>
+
+
