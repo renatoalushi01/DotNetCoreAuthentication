@@ -12,10 +12,12 @@ using DotNetCoreAuthentication.Models;
 using DotNetCoreAuthentication.Repository;
 using DotNetCoreAuthentication.Service;
 using DotNetCoreAuthentication.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 
 namespace DotNetCoreAuthentication.Controllers
 {
+    [Authorize]
     public class MailBoxesController : Controller
     {
         private readonly IMailBoxService _service;
