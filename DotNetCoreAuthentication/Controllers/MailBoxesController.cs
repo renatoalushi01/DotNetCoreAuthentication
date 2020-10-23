@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using DotNetCoreAuthentication.Data;
 using DotNetCoreAuthentication.Models;
 using DotNetCoreAuthentication.Repository;
 using DotNetCoreAuthentication.Service;
+using DotNetCoreAuthentication.ViewModels;
 using Microsoft.AspNetCore.Http;
 
 namespace DotNetCoreAuthentication.Controllers
@@ -17,12 +19,12 @@ namespace DotNetCoreAuthentication.Controllers
     public class MailBoxesController : Controller
     {
         private readonly IMailBoxService _service;
-        
+        private readonly IMapper _mapper;
 
-        public MailBoxesController(IMailBoxService service)
+        public MailBoxesController(IMailBoxService service , IMapper mapper)
         {
             _service = service;
-            
+            _mapper = mapper;
         }
         
         // GET: MailBoxes
@@ -39,14 +41,15 @@ namespace DotNetCoreAuthentication.Controllers
             {
                 return NotFound();
             }
-            var userid = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            
             var mailBox = await _service.GetMailsById(id);
-            if (mailBox == null)
+            var model = _mapper.Map<MailBoxDto>(mailBox);
+            if (model == null)
             {
                 return NotFound();
             }
 
-            return View(mailBox);
+            return View(model);
         }
 
         // GET: MailBoxes/Create
@@ -56,11 +59,12 @@ namespace DotNetCoreAuthentication.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Sender,Receiver,Subject,Message,DateTime")] MailBox mailBox)
+        public async Task<IActionResult> Create([Bind("Id,Sender,Receiver,Subject,Message,DateTime")] MailBoxDto model)
         {
             if (ModelState.IsValid)
             {
                 var userid = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var mailBox = _mapper.Map<MailBox>(model);
                 mailBox.DateTime = DateTime.Now;
                 var user = HttpContext.User.FindFirst(ClaimTypes.Name).Value;
                 mailBox.UserId = userid;
@@ -69,7 +73,7 @@ namespace DotNetCoreAuthentication.Controllers
                 await _service.AddMailAsync(mailBox);
                 return RedirectToAction(nameof(Index));
             }
-            return View(mailBox);
+            return View(model);
         }
 
         // GET: MailBoxes/Edit/5
@@ -81,46 +85,38 @@ namespace DotNetCoreAuthentication.Controllers
             }
 
             var mailBox = await _service.GetMailsById(id);
-            if (mailBox == null)
+            var model = _mapper.Map<MailBoxDto>(mailBox);
+            if (model == null)
             {
                 return NotFound();
             }
-            return View(mailBox);
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Sender,Receiver,Subject,Message,DateTime")] MailBox mailBox)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Sender,Receiver,Subject,Message,DateTime")] MailBoxDto model)
         {
-            if (id != mailBox.Id)
+            if (id != model.Id)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    var userid = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                    mailBox.UserId = userid;
-                    mailBox.UpdatedAt = DateTime.Now;
-                    await _service.UpdateMailAsync(mailBox);
+
+                var mailBox = _mapper.Map<MailBox>(model);
+                var userid = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                mailBox.UserId = userid;
+                mailBox.UpdatedAt = DateTime.Now;
+                mailBox.DateTime = DateTime.Now;
+                await _service.UpdateMailAsync(mailBox);
                     
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (mailBox.Id == 0)
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                
+                
                 return RedirectToAction(nameof(Index));
             }
-            return View(mailBox);
+            return View(model);
         }
 
         // GET: MailBoxes/Delete/5
