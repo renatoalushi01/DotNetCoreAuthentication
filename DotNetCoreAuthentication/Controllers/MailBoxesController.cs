@@ -14,6 +14,7 @@ using DotNetCoreAuthentication.Service;
 using DotNetCoreAuthentication.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace DotNetCoreAuthentication.Controllers
 {
@@ -22,11 +23,13 @@ namespace DotNetCoreAuthentication.Controllers
     {
         private readonly IMailBoxService _service;
         private readonly IMapper _mapper;
+        private readonly IEmailSender _emailSender;
 
-        public MailBoxesController(IMailBoxService service , IMapper mapper)
+        public MailBoxesController(IMailBoxService service , IMapper mapper, IEmailSender emailSender)
         {
             _service = service;
             _mapper = mapper;
+            _emailSender = emailSender;
         }
         
         // GET: MailBoxes
@@ -73,6 +76,7 @@ namespace DotNetCoreAuthentication.Controllers
                 mailBox.Sender = user;
                 mailBox.CreatedAt = DateTime.Now;
                 await _service.AddMailAsync(mailBox);
+                await _emailSender.SendEmailAsync(mailBox.Receiver, mailBox.Subject, mailBox.Message);
                 return RedirectToAction(nameof(Index));
             }
             return View(model);
@@ -113,9 +117,9 @@ namespace DotNetCoreAuthentication.Controllers
                 mailBox.UpdatedAt = DateTime.Now;
                 mailBox.DateTime = DateTime.Now;
                 await _service.UpdateMailAsync(mailBox);
-                    
-                
-                
+                await _emailSender.SendEmailAsync(mailBox.Receiver, mailBox.Subject, mailBox.Message);
+
+
                 return RedirectToAction(nameof(Index));
             }
             return View(model);
