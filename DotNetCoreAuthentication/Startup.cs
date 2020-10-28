@@ -20,6 +20,8 @@ using DotNetCoreAuthentication.Models;
 using DotNetCoreAuthentication.Repository;
 using DotNetCoreAuthentication.Repository.Common;
 using DotNetCoreAuthentication.Service;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 
 namespace DotNetCoreAuthentication
 {
@@ -53,8 +55,20 @@ namespace DotNetCoreAuthentication
             var config = new MapperConfiguration(c => { c.AddProfile(new AutoMaperProfile()); });
             var mapper = config.CreateMapper();
             services.AddSingleton(mapper);
+            services.AddAuthentication(o =>
+                {
+                    o.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    o.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+                })
+                .AddCookie()
+                .AddGoogle(o =>
+                {
+                    o.ClientId = Configuration["Google:ClientId"];
+                    o.ClientSecret = Configuration["Google:ClientSecret"];
+                });
 
         }
+            
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

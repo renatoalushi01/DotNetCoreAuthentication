@@ -15,7 +15,7 @@
     <div class="wrapper d-flex align-items-stretch">
         <nav id="sidebar">
             <div class="p-4 pt-5">
-                <ul class="list-unstyled components mb-5">
+                <ul class="list-unstyled components mb-5" id="activeLink">
                     <li class="active">
                         <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
 
@@ -55,6 +55,11 @@
     <script src="~/js/popper.js"></script>
     <script src="~/js/bootstrap.min.js"></script>
     <script src="~/js/main.js"></script>
+<script>
+    $('#activeLink li a').click(function () {
+        $(this).parent().addClass('active').siblings().removeClass('active');
+    });
+</script>  
     @RenderSection("Scripts", required: false)
 </body>
 </html>
