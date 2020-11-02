@@ -7,16 +7,16 @@ namespace DotNetCoreAuthentication.Repository.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "LastName",
-                table: "AspNetUsers",
+                "LastName",
+                "AspNetUsers",
                 nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "LastName",
-                table: "AspNetUsers");
+                "LastName",
+                "AspNetUsers");
         }
     }
 }

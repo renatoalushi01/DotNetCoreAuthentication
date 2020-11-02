@@ -8,40 +8,40 @@ namespace DotNetCoreAuthentication.Repository.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<string>(
-                name: "Name",
-                table: "AspNetUserTokens",
+                "Name",
+                "AspNetUserTokens",
                 nullable: false,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(128)",
                 oldMaxLength: 128);
 
             migrationBuilder.AlterColumn<string>(
-                name: "LoginProvider",
-                table: "AspNetUserTokens",
+                "LoginProvider",
+                "AspNetUserTokens",
                 nullable: false,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(128)",
                 oldMaxLength: 128);
 
             migrationBuilder.AlterColumn<string>(
-                name: "ProviderKey",
-                table: "AspNetUserLogins",
+                "ProviderKey",
+                "AspNetUserLogins",
                 nullable: false,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(128)",
                 oldMaxLength: 128);
 
             migrationBuilder.AlterColumn<string>(
-                name: "LoginProvider",
-                table: "AspNetUserLogins",
+                "LoginProvider",
+                "AspNetUserLogins",
                 nullable: false,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(128)",
                 oldMaxLength: 128);
 
             migrationBuilder.CreateTable(
-                name: "MailBoxes",
-                columns: table => new
+                "MailBoxes",
+                table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
@@ -51,50 +51,51 @@ namespace DotNetCoreAuthentication.Repository.Migrations
                     Message = table.Column<string>(nullable: true),
                     DateTime = table.Column<DateTime>(nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MailBoxes", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_MailBoxes", x => x.Id); });
 
             migrationBuilder.InsertData(
-                table: "MailBoxes",
-                columns: new[] { "Id", "DateTime", "Message", "Receiver", "Sender", "Subject" },
-                values: new object[] { 1, new DateTime(2020, 10, 16, 11, 57, 41, 849, DateTimeKind.Local).AddTicks(6934), "Test", "renato.alushi@gmail.com", "test@test.com", "Subjekti1" });
+                "MailBoxes",
+                new[] {"Id", "DateTime", "Message", "Receiver", "Sender", "Subject"},
+                new object[]
+                {
+                    1, new DateTime(2020, 10, 16, 11, 57, 41, 849, DateTimeKind.Local).AddTicks(6934), "Test",
+                    "renato.alushi@gmail.com", "test@test.com", "Subjekti1"
+                });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "MailBoxes");
+                "MailBoxes");
 
             migrationBuilder.AlterColumn<string>(
-                name: "Name",
-                table: "AspNetUserTokens",
-                type: "nvarchar(128)",
+                "Name",
+                "AspNetUserTokens",
+                "nvarchar(128)",
                 maxLength: 128,
                 nullable: false,
                 oldClrType: typeof(string));
 
             migrationBuilder.AlterColumn<string>(
-                name: "LoginProvider",
-                table: "AspNetUserTokens",
-                type: "nvarchar(128)",
+                "LoginProvider",
+                "AspNetUserTokens",
+                "nvarchar(128)",
                 maxLength: 128,
                 nullable: false,
                 oldClrType: typeof(string));
 
             migrationBuilder.AlterColumn<string>(
-                name: "ProviderKey",
-                table: "AspNetUserLogins",
-                type: "nvarchar(128)",
+                "ProviderKey",
+                "AspNetUserLogins",
+                "nvarchar(128)",
                 maxLength: 128,
                 nullable: false,
                 oldClrType: typeof(string));
 
             migrationBuilder.AlterColumn<string>(
-                name: "LoginProvider",
-                table: "AspNetUserLogins",
-                type: "nvarchar(128)",
+                "LoginProvider",
+                "AspNetUserLogins",
+                "nvarchar(128)",
                 maxLength: 128,
                 nullable: false,
                 oldClrType: typeof(string));

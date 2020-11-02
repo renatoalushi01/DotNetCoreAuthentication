@@ -1,11 +1,11 @@
-﻿@model IEnumerable<DotNetCoreAuthentication.Models.MailBox>
+﻿@model IEnumerable<MailBox>
 @{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Mail Box</h1>
-    
+
 </div>
 <p>
     <a class="btn btn-primary" asp-controller="MailBoxes" asp-action="Create">Send New Mail</a>
@@ -29,7 +29,8 @@
     </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Receiver)
@@ -43,7 +44,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.DateTime)
             </td>
-          
+
         </tr>
     }
     </tbody>
@@ -68,5 +69,3 @@
         }
     </div>
 </div>
-
-

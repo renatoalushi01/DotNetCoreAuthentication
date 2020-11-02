@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace DotNetCoreAuthentication.Repository
 {
@@ -21,7 +21,10 @@ namespace DotNetCoreAuthentication.Repository
             _context.Set<TEntity>().Add(entity);
         }
 
-        public TEntity Get(int id) => _context.Set<TEntity>().Find(id);
+        public TEntity Get(int id)
+        {
+            return _context.Set<TEntity>().Find(id);
+        }
 
         public void SaveChanges()
         {
@@ -64,10 +67,7 @@ namespace DotNetCoreAuthentication.Repository
 
         public void Remove(int id)
         {
-            if (id == default)
-            {
-                throw new ArgumentNullException(nameof(id));
-            }
+            if (id == default) throw new ArgumentNullException(nameof(id));
 
             var entity = Get(id);
             _context.Remove(entity);
@@ -76,7 +76,7 @@ namespace DotNetCoreAuthentication.Repository
 
         public async Task<IEnumerable<TEntity>> GetAllAsync(string uId)
         {
-                return await _context.Set<TEntity>().Where(item => !item.IsDeleted && item.UserId == uId).ToListAsync();
+            return await _context.Set<TEntity>().Where(item => !item.IsDeleted && item.UserId == uId).ToListAsync();
         }
 
         public async Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> expression)

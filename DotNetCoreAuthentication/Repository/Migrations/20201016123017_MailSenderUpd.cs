@@ -8,27 +8,27 @@ namespace DotNetCoreAuthentication.Repository.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "UserId",
-                table: "MailBoxes",
+                "UserId",
+                "MailBoxes",
                 nullable: true);
 
             migrationBuilder.UpdateData(
-                table: "MailBoxes",
-                keyColumn: "Id",
-                keyValue: 1,
-                column: "DateTime",
-                value: new DateTime(2020, 10, 16, 14, 30, 17, 213, DateTimeKind.Local).AddTicks(69));
+                "MailBoxes",
+                "Id",
+                1,
+                "DateTime",
+                new DateTime(2020, 10, 16, 14, 30, 17, 213, DateTimeKind.Local).AddTicks(69));
 
             migrationBuilder.CreateIndex(
-                name: "IX_MailBoxes_UserId",
-                table: "MailBoxes",
-                column: "UserId");
+                "IX_MailBoxes_UserId",
+                "MailBoxes",
+                "UserId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_MailBoxes_AspNetUsers_UserId",
-                table: "MailBoxes",
-                column: "UserId",
-                principalTable: "AspNetUsers",
+                "FK_MailBoxes_AspNetUsers_UserId",
+                "MailBoxes",
+                "UserId",
+                "AspNetUsers",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
         }
@@ -36,23 +36,23 @@ namespace DotNetCoreAuthentication.Repository.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_MailBoxes_AspNetUsers_UserId",
-                table: "MailBoxes");
+                "FK_MailBoxes_AspNetUsers_UserId",
+                "MailBoxes");
 
             migrationBuilder.DropIndex(
-                name: "IX_MailBoxes_UserId",
-                table: "MailBoxes");
+                "IX_MailBoxes_UserId",
+                "MailBoxes");
 
             migrationBuilder.DropColumn(
-                name: "UserId",
-                table: "MailBoxes");
+                "UserId",
+                "MailBoxes");
 
             migrationBuilder.UpdateData(
-                table: "MailBoxes",
-                keyColumn: "Id",
-                keyValue: 1,
-                column: "DateTime",
-                value: new DateTime(2020, 10, 16, 11, 57, 41, 849, DateTimeKind.Local).AddTicks(6934));
+                "MailBoxes",
+                "Id",
+                1,
+                "DateTime",
+                new DateTime(2020, 10, 16, 11, 57, 41, 849, DateTimeKind.Local).AddTicks(6934));
         }
     }
 }

@@ -7,20 +7,20 @@ namespace DotNetCoreAuthentication.Repository.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "ApplicationId",
-                table: "MailBoxes",
+                "ApplicationId",
+                "MailBoxes",
                 nullable: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_MailBoxes_ApplicationId",
-                table: "MailBoxes",
-                column: "ApplicationId");
+                "IX_MailBoxes_ApplicationId",
+                "MailBoxes",
+                "ApplicationId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_MailBoxes_AspNetUsers_ApplicationId",
-                table: "MailBoxes",
-                column: "ApplicationId",
-                principalTable: "AspNetUsers",
+                "FK_MailBoxes_AspNetUsers_ApplicationId",
+                "MailBoxes",
+                "ApplicationId",
+                "AspNetUsers",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
         }
@@ -28,16 +28,16 @@ namespace DotNetCoreAuthentication.Repository.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_MailBoxes_AspNetUsers_ApplicationId",
-                table: "MailBoxes");
+                "FK_MailBoxes_AspNetUsers_ApplicationId",
+                "MailBoxes");
 
             migrationBuilder.DropIndex(
-                name: "IX_MailBoxes_ApplicationId",
-                table: "MailBoxes");
+                "IX_MailBoxes_ApplicationId",
+                "MailBoxes");
 
             migrationBuilder.DropColumn(
-                name: "ApplicationId",
-                table: "MailBoxes");
+                "ApplicationId",
+                "MailBoxes");
         }
     }
 }
