@@ -55,13 +55,7 @@ namespace DotNetCoreAuthentication
             var config = new MapperConfiguration(c => { c.AddProfile(new AutoMaperProfile()); });
             var mapper = config.CreateMapper();
             services.AddSingleton(mapper);
-            services.AddAuthentication(o =>
-                {
-                    o.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                })
-                .AddCookie()
-                ;
-
+            services.AddAuthentication( CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
         }
             
 
@@ -76,7 +70,6 @@ namespace DotNetCoreAuthentication
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
