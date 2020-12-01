@@ -58,14 +58,9 @@ namespace DotNetCoreAuthentication
             services.AddAuthentication(o =>
                 {
                     o.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                    o.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
                 })
                 .AddCookie()
-                .AddGoogle(o =>
-                {
-                    o.ClientId = Configuration["Google:ClientId"];
-                    o.ClientSecret = Configuration["Google:ClientSecret"];
-                });
+                ;
 
         }
             
