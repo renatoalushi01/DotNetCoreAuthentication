@@ -1,20 +1,17 @@
-﻿using DotNetCoreAuthentication.Data;
+﻿using System.Security.Claims;
+using System.Threading.Tasks;
+using DotNetCoreAuthentication.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace DotNetCoreAuthentication.Areas.Identity.Data
 {
-    public class AppUserClaimsPrincipalFactory : UserClaimsPrincipalFactory<ApplicationUser,IdentityRole>
-    { 
+    public class AppUserClaimsPrincipalFactory : UserClaimsPrincipalFactory<ApplicationUser, IdentityRole>
+    {
         public AppUserClaimsPrincipalFactory(UserManager<ApplicationUser> userManager,
-            RoleManager<IdentityRole> roleManager,IOptions<IdentityOptions> options ) : base (userManager,roleManager,options)
+            RoleManager<IdentityRole> roleManager, IOptions<IdentityOptions> options) : base(userManager, roleManager,
+            options)
         {
-
         }
 
         protected override async Task<ClaimsIdentity> GenerateClaimsAsync(ApplicationUser user)
