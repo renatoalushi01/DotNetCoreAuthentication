@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace DotNetCoreAuthentication.Controllers
 {
-    [Authorize]
+    
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -18,12 +18,13 @@ namespace DotNetCoreAuthentication.Controllers
             _logger = logger;
             _service = service;
         }
-
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             var userid = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             return View(await _service.GetAllAsync(userid));
-        }
+
+            }
 
         public IActionResult Privacy()
         {

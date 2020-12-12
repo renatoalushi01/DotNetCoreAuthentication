@@ -5,19 +5,24 @@ using AutoMapper;
 using DotNetCoreAuthentication.Models;
 using DotNetCoreAuthentication.Service;
 using DotNetCoreAuthentication.ViewModels;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace DotNetCoreAuthentication.Controllers
 {
+    [Authorize]
     public class MailBoxesController : Controller
     {
         private readonly IMapper _mapper;
+        private readonly IEmailSender _emailSender;
         private readonly IMailBoxService _service;
 
         public MailBoxesController(IMailBoxService service, IMapper mapper)
         {
             _service = service;
             _mapper = mapper;
+            _emailSender = emailSender;
         }
 
         // GET: MailBoxes
@@ -60,6 +65,7 @@ namespace DotNetCoreAuthentication.Controllers
                 mailBox.Sender = user;
                 mailBox.CreatedAt = DateTime.Now;
                 await _service.AddMailAsync(mailBox);
+                await _emailSender.SendEmailAsync(mailBox.Receiver, mailBox.Subject, mailBox.Message);
                 return RedirectToAction(nameof(Index));
             }
 
@@ -92,6 +98,7 @@ namespace DotNetCoreAuthentication.Controllers
                 mailBox.UpdatedAt = DateTime.Now;
                 mailBox.DateTime = DateTime.Now;
                 await _service.UpdateMailAsync(mailBox);
+                await _emailSender.SendEmailAsync(mailBox.Receiver, mailBox.Subject, mailBox.Message);
 
 
                 return RedirectToAction(nameof(Index));
