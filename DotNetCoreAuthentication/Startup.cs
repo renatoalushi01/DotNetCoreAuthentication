@@ -5,6 +5,7 @@ using DotNetCoreAuthentication.Data;
 using DotNetCoreAuthentication.Repository;
 using DotNetCoreAuthentication.Repository.Common;
 using DotNetCoreAuthentication.Service;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -13,15 +14,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using DotNetCoreAuthentication.Areas.Identity.Data;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using DotNetCoreAuthentication.Areas.Identity;
-using DotNetCoreAuthentication.Models;
-using DotNetCoreAuthentication.Repository;
-using DotNetCoreAuthentication.Repository.Common;
-using DotNetCoreAuthentication.Service;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.Google;
 
 namespace DotNetCoreAuthentication
 {
@@ -64,7 +56,8 @@ namespace DotNetCoreAuthentication
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                app.UseExceptionHandler("/Home/Error");
+                //app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
             }
             else

@@ -8,6 +8,7 @@ using DotNetCoreAuthentication.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DotNetCoreAuthentication.Controllers
 {
@@ -18,7 +19,7 @@ namespace DotNetCoreAuthentication.Controllers
         private readonly IEmailSender _emailSender;
         private readonly IMailBoxService _service;
 
-        public MailBoxesController(IMailBoxService service, IMapper mapper)
+        public MailBoxesController(IMailBoxService service, IMapper mapper , IEmailSender emailSender)
         {
             _service = service;
             _mapper = mapper;
@@ -39,7 +40,8 @@ namespace DotNetCoreAuthentication.Controllers
 
             var mailBox = await _service.GetMailsById(id);
             var model = _mapper.Map<MailBoxDto>(mailBox);
-            if (model == null) return NotFound();
+            if (model == null) 
+                return NotFound();
 
             return View(model);
         }

@@ -23,8 +23,8 @@ namespace DotNetCoreAuthentication.Controllers
         {
             var userid = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             return View(await _service.GetAllAsync(userid));
+        }
 
-            }
 
         public IActionResult Privacy()
         {
