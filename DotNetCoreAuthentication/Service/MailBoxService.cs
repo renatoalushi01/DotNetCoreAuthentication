@@ -38,5 +38,10 @@ namespace DotNetCoreAuthentication.Service
         {
             await _context.UpdateAsync(mailBox);
         }
+
+        public async Task<List<MailBox>> GetMailBoxAsync()
+        {
+            return await _context.GetMailBoxesAsync();
+        }
     }
 }
