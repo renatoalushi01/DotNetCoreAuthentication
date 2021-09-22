@@ -11,5 +11,6 @@ namespace DotNetCoreAuthentication.Service
         Task<MailBox> GetMailsById(int? id);
         Task UpdateMailAsync(MailBox mailBox);
         Task DeleteAsync(int? id);
+        Task<List<MailBox>> GetMailBoxAsync();
     }
 }
